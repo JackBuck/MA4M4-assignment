@@ -1,3 +1,0 @@
-[submodule "geometric_clustering"]
-	path = geometric_clustering
-	url = git@github.com:agosztolai/geometric_clustering.git
