@@ -24,7 +24,7 @@ def log_duration(name, logger=None):
 
     mins, secs = divmod(t1 - t0, 60)
     if mins:
-        timestr = f"{mins} mins {secs:.0f} secs"
+        timestr = f"{mins:d} mins {secs:.0f} secs"
     else:
         timestr = f"{secs:.2g} secs"
 

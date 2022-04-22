@@ -21,3 +21,7 @@ LOW_PASS_BUTTER_ORDER = 8
 
 CORRELATION_THRESHOLD = 0.4
 """Threshold above which a correlation will be converted to an edge in the network"""
+
+
+MODULARITY_MAXIMISATION_RESOLUTION = 1
+"""Default resolution for detecting communities via modularity maximisation"""

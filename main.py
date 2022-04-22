@@ -12,4 +12,4 @@ if __name__ == "__main__":
     logging.basicConfig(format=LOG_FORMAT, level=logging.INFO)
     np.seterr(over="raise", under="raise")
 
-    pipeline.run()
+    pipeline.run(recalculate_correlations=False, rebuild_network=False)
