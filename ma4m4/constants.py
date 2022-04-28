@@ -25,3 +25,7 @@ CORRELATION_THRESHOLD = 0.4
 
 MODULARITY_MAXIMISATION_RESOLUTION = 1
 """Default resolution for detecting communities via modularity maximisation"""
+
+
+PLOT_MAX_COMMUNITIES = 20
+"""The maximum number of communities to show in plots"""
