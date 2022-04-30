@@ -8,13 +8,15 @@ from ma4m4.community_detection import (
 )
 from ma4m4.compute_correlations import compute_correlations
 from ma4m4.downsample import downsample_anomaly_series
-from ma4m4.plots import plot_community_comparison
+from ma4m4.plots import plot_communities, plot_community_comparison
 
 
 def run(
     recalculate_correlations=True,
     rebuild_network=True,
     rerun_community_detection=True,
+    regenerate_community_comparison_plot=True,
+    regenerate_communities_plot_for_weighted_asymptotic_surprise=True,
 ):
     """Run the full pipeline to process the raw SST data into plots in the essay"""
 
@@ -26,8 +28,10 @@ def run(
         run_step_build_network()
     if rerun_community_detection:
         run_step_detect_communities()
-
-    run_step_plot_community_comparison()
+    if regenerate_community_comparison_plot:
+        run_step_plot_community_comparison()
+    if regenerate_communities_plot_for_weighted_asymptotic_surprise:
+        run_step_plot_communities_from_weighted_asymptotic_surprise()
 
 
 def run_step_calculate_correlations():
@@ -65,6 +69,10 @@ def run_step_detect_communities():
     meta_surprise = {**meta, "community_algo": "surprise"}
     dc.save_communities(comms_surprise, meta_surprise, name="surprise")
 
+    comms_surprise = detect_communities_via_asymptotic_surprise(graph, weight="abs_corr")
+    meta_surprise = {**meta, "community_algo": "surprise-weighted"}
+    dc.save_communities(comms_surprise, meta_surprise, name="surprise-weighted")
+
 
 def run_step_plot_community_comparison():
     communities = {}
@@ -74,3 +82,9 @@ def run_step_plot_community_comparison():
 
     fig = plot_community_comparison(communities)
     dc.save_community_comparison_plot(fig)
+
+
+def run_step_plot_communities_from_weighted_asymptotic_surprise():
+    communities, meta = dc.load_communities("surprise-weighted")
+    fig = plot_communities(communities, title="asymptotic surprise (weighted)")
+    dc.save_community_plot(fig, "surprise-weighted")

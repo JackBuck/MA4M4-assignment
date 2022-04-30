@@ -31,7 +31,7 @@ def detect_communities_via_infomap(graph):
 
 
 @log_duration("detect communities via asymptotic surprise")
-def detect_communities_via_asymptotic_surprise(graph):
-    comms = cdlib.algorithms.surprise_communities(graph)
+def detect_communities_via_asymptotic_surprise(graph, weight: str = None):
+    comms = cdlib.algorithms.surprise_communities(graph, weights=weight)
     logger.info(f"Found {len(comms.communities)} communities")
     return comms

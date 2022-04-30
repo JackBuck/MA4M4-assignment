@@ -24,6 +24,7 @@ FILE_PATHS = {
     "communities": os.path.join(OUTPUTS_DIR, "communities_{name}.pkl"),
     "community_comparison_plot_eps": os.path.join(REPORTING_DIR, "community_comparison.eps"),
     "community_comparison_plot_jpg": os.path.join(REPORTING_DIR, "community_comparison.jpg"),
+    "community_plot": os.path.join(REPORTING_DIR, "communities_{name}.{fmt}"),
 }
 
 
@@ -135,3 +136,13 @@ def load_communities(name):
 def save_community_comparison_plot(fig):
     fig.savefig(FILE_PATHS["community_comparison_plot_eps"])
     fig.savefig(FILE_PATHS["community_comparison_plot_jpg"], dpi=240, facecolor="white")
+
+
+@log_duration("save community plot")
+def save_community_plot(fig, name):
+    fig.savefig(FILE_PATHS["community_plot"].format(name=name, fmt="eps"))
+    fig.savefig(
+        FILE_PATHS["community_plot"].format(name=name, fmt="jpg"),
+        dpi=240,
+        facecolor="white",
+    )

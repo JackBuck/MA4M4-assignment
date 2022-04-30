@@ -18,6 +18,15 @@ def build_network(
     graph = nx.from_numpy_array(adj_mat)
     nx.set_node_attributes(graph, {i: x for i, x in enumerate(latitude)}, "latitude")
     nx.set_node_attributes(graph, {i: x for i, x in enumerate(longitude)}, "longitude")
+    nx.set_edge_attributes(
+        graph,
+        {
+            (i, j): np.abs(correlation[i, j])
+            for i, j in np.ndindex(correlation.shape)
+            if adj_mat[i, j]
+        },
+        name="abs_corr",
+    )
 
     meta = {"corr_threshold": threshold, "corr_two_sided": two_sided}
 
