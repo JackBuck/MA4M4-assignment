@@ -17,5 +17,7 @@ if __name__ == "__main__":
         rebuild_network=False,
         rerun_community_detection=False,
         regenerate_community_comparison_plot=False,
+        regenerate_communities_plot_for_asymptotic_surprise=True,
         regenerate_communities_plot_for_weighted_asymptotic_surprise=True,
+        regenerate_correlations_distribution_plot=True,
     )

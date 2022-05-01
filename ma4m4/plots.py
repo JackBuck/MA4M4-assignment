@@ -1,13 +1,54 @@
 import cartopy.crs as ccrs
 import matplotlib as mpl
 import numpy as np
+import seaborn as sns
 from matplotlib import pyplot as plt
 
-from ma4m4.constants import PLOT_MAX_COMMUNITIES
+from ma4m4.constants import CORRELATION_THRESHOLD, PLOT_MAX_COMMUNITIES
 from ma4m4.utils import log_duration
 
 
-@log_duration("plotting community comparison")
+@log_duration("plot correlations")
+def plot_correlations_distribution(
+    correlations, threshold=CORRELATION_THRESHOLD, two_sided=True
+):
+    """ Plot the distribution of correlations, along with the threshold
+
+    Args:
+        correlations: A symmetric nxn numpy array of correlations with one row and one
+            column for each (unmasked) spatial location
+        threshold: A threshold to plot on top of the distribution
+        two_sided: If true then both the positive and negative of the threshold will be
+            drawn, else only the threshold passed will be drawn
+
+    Returns:
+        The matplotlib figure generated
+    """
+    fig, ax = plt.subplots(figsize=(6, 3), constrained_layout=True)
+    upper_entries = correlations[np.triu_indices(correlations.shape[0], k=1)]
+    sns.histplot(
+        x=upper_entries,
+        bins=100,
+        color="tab:blue",
+        alpha=0.25,
+        element="step",
+        label="counts",
+        legend=False,
+        ax=ax,
+    )
+    ax.axvline(threshold, color="tab:red", label="threshold")
+    if two_sided:
+        ax.axvline(-threshold, color="tab:red")
+    ax.yaxis.set_major_formatter("{x:,.0f}")
+    ax.spines[["top", "right"]].set_visible(False)
+    ax.set_xlabel("Correlation")
+    ax.set_ylabel("Pairs of spatial locations")
+    ax.legend(loc="upper right")
+
+    return fig
+
+
+@log_duration("plot community comparison")
 def plot_community_comparison(communities):
     algorithms = {
         "surprise": "asymptotic surprise",
@@ -26,7 +67,7 @@ def plot_community_comparison(communities):
     return fig
 
 
-@log_duration("plotting communities")
+@log_duration("plot communities")
 def plot_communities(communities, title=None):
     fig, axs, _ = _plot_communities(communities)
     if title:

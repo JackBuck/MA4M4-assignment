@@ -22,6 +22,8 @@ FILE_PATHS = {
     "correlations": os.path.join(INTERMEDIATES_DIR, "correlations.npz"),
     "network": os.path.join(INTERMEDIATES_DIR, "network.pkl"),
     "communities": os.path.join(OUTPUTS_DIR, "communities_{name}.pkl"),
+    "correlations_plot_pdf": os.path.join(REPORTING_DIR, "correlations.pdf"),
+    "correlations_plot_jpg": os.path.join(REPORTING_DIR, "correlations.jpg"),
     "community_comparison_plot_eps": os.path.join(REPORTING_DIR, "community_comparison.eps"),
     "community_comparison_plot_jpg": os.path.join(REPORTING_DIR, "community_comparison.jpg"),
     "community_plot": os.path.join(REPORTING_DIR, "communities_{name}.{fmt}"),
@@ -130,6 +132,12 @@ def load_communities(name):
         loaded = pickle.load(f)
     logger.info(f"Loaded communities with meta data: {loaded['meta']}")
     return loaded["communities"], loaded["meta"]
+
+
+@log_duration("save correlations plot")
+def save_correlations_plot(fig):
+    fig.savefig(FILE_PATHS["correlations_plot_pdf"])
+    fig.savefig(FILE_PATHS["correlations_plot_jpg"], dpi=240, facecolor="white")
 
 
 @log_duration("save community comparison plot")

@@ -8,7 +8,7 @@ from ma4m4.community_detection import (
 )
 from ma4m4.compute_correlations import compute_correlations
 from ma4m4.downsample import downsample_anomaly_series
-from ma4m4.plots import plot_communities, plot_community_comparison
+from ma4m4.plots import plot_communities, plot_community_comparison, plot_correlations_distribution
 
 
 def run(
@@ -16,7 +16,9 @@ def run(
     rebuild_network=True,
     rerun_community_detection=True,
     regenerate_community_comparison_plot=True,
+    regenerate_communities_plot_for_asymptotic_surprise=True,
     regenerate_communities_plot_for_weighted_asymptotic_surprise=True,
+    regenerate_correlations_distribution_plot=True,
 ):
     """Run the full pipeline to process the raw SST data into plots in the essay"""
 
@@ -30,8 +32,12 @@ def run(
         run_step_detect_communities()
     if regenerate_community_comparison_plot:
         run_step_plot_community_comparison()
+    if regenerate_communities_plot_for_asymptotic_surprise:
+        run_step_plot_communities_from_asymptotic_surprise()
     if regenerate_communities_plot_for_weighted_asymptotic_surprise:
         run_step_plot_communities_from_weighted_asymptotic_surprise()
+    if regenerate_correlations_distribution_plot:
+        run_step_plot_correlations_distribution()
 
 
 def run_step_calculate_correlations():
@@ -84,7 +90,20 @@ def run_step_plot_community_comparison():
     dc.save_community_comparison_plot(fig)
 
 
+def run_step_plot_communities_from_asymptotic_surprise():
+    # The generated figure is used in the presentation
+    communities, meta = dc.load_communities("surprise")
+    fig = plot_communities(communities)
+    dc.save_community_plot(fig, "surprise")
+
+
 def run_step_plot_communities_from_weighted_asymptotic_surprise():
     communities, meta = dc.load_communities("surprise-weighted")
     fig = plot_communities(communities, title="asymptotic surprise (weighted)")
     dc.save_community_plot(fig, "surprise-weighted")
+
+
+def run_step_plot_correlations_distribution():
+    correlations, meta_corr = dc.load_correlations()
+    fig = plot_correlations_distribution(correlations["correlation"])
+    dc.save_correlations_plot(fig)
