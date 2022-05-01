@@ -13,10 +13,10 @@ if __name__ == "__main__":
     np.seterr(over="raise", under="raise")
 
     pipeline.run(
-        recalculate_correlations=False,
-        rebuild_network=False,
-        rerun_community_detection=False,
-        regenerate_community_comparison_plot=False,
+        recalculate_correlations=True,
+        rebuild_network=True,
+        rerun_community_detection=True,
+        regenerate_community_comparison_plot=True,
         regenerate_communities_plot_for_asymptotic_surprise=True,
         regenerate_communities_plot_for_weighted_asymptotic_surprise=True,
         regenerate_correlations_distribution_plot=True,
