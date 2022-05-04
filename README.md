@@ -11,3 +11,6 @@ The signal processing to generate the anomaly series and correlations is done us
 Graphs are represented using `networkx` and `cdlib` is used to perform all community detection.
 Plots are generated using `matplotlib` and `cartopy`.
 
+## Data
+Data can be downloaded in NetCDF format from https://www.metoffice.gov.uk/hadobs/hadisst/data/download.html . The file should be saved as `HadISST_sst.nc` in `data/01_raw/`.
+
