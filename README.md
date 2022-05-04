@@ -5,6 +5,10 @@ The file `main.py` is the entry point, while all 'content' can be found in the `
 conda env create -n ma4m4-jb --file environment.yaml
 ```
 Note that `ma4m4` has not been properly packaged as a python package, so is not installed. Instead, `main.py` must be run from the project root directory, so that `ma4m4` appears on the python path.
+```
+python main.py
+```
+Note that you must download the data before you can run the pipeline (see below).
 
 ## Summary of libraries used
 The signal processing to generate the anomaly series and correlations is done using `numpy` and `scipy`.
